@@ -26,6 +26,9 @@ export class UserCourseService {
 				where: { userId },
 				skip,
 				take: limit,
+				orderBy: {
+					completedSections: 'desc',
+				},
 				select: {
 					userId: true,
 					courseId: true,
