@@ -49,13 +49,25 @@ export class UserService {
 		})
 	}
 
+	async updatePoints(userId: string, points: number) {
+		const user = await this.prisma.user.update({
+			where: { userId },
+			data: {
+				points: {
+					increment: points,
+				},
+			},
+		})
+
+		return user
+	}
+
 	async updatePassword(userId: string, newPassword: string) {
 		const user = await this.prisma.user.update({
 			where: { userId },
 			data: { password: newPassword },
 		})
 
-		if (!user) throw new NotFoundException('User not found')
 		return user
 	}
 

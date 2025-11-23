@@ -10,8 +10,16 @@ export class CourseService {
 			return this.prisma.course.findMany({ include: { sections: true } })
 		} else if (role === Role.CHILD) {
 			const userCourses = await this.prisma.userCourse.findMany({
-				where: { userId },
-				include: { course: { include: { sections: true } } },
+				where: {
+					userId,
+				},
+				include: {
+					course: {
+						include: {
+							sections: true,
+						},
+					},
+				},
 			})
 			return userCourses.map(uc => uc.course)
 		} else return []

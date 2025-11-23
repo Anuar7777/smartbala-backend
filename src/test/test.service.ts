@@ -12,11 +12,13 @@ import {
 	TestQuestion,
 } from '../section/section.types'
 import { UserCourseService } from '../user/user-course.service'
+import { UserService } from '../user/user.service'
 
 @Injectable()
 export class TestService {
 	constructor(
 		private readonly prisma: PrismaService,
+		private readonly userService: UserService,
 		private readonly userCourseService: UserCourseService,
 	) {}
 
@@ -112,6 +114,7 @@ export class TestService {
 
 		if (status === TestStatus.PASSED) {
 			await this.userCourseService.updateProgress(userId, test.courseId)
+			await this.userService.updatePoints(userId, Math.round(score / 10))
 		}
 
 		return this.prisma.test.update({
