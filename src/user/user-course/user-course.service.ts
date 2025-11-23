@@ -23,7 +23,12 @@ export class UserCourseService {
 
 		const [items, total] = await this.prisma.$transaction([
 			this.prisma.userCourse.findMany({
-				where: { userId },
+				where: {
+					userId,
+					completedSections: {
+						gt: 0, 
+					},
+				},
 				skip,
 				take: limit,
 				orderBy: {
