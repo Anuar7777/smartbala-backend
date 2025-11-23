@@ -26,7 +26,7 @@ export class UserCourseService {
 				where: {
 					userId,
 					completedSections: {
-						gt: 0, 
+						gt: 0,
 					},
 				},
 				skip,
@@ -43,7 +43,12 @@ export class UserCourseService {
 				},
 			}),
 			this.prisma.userCourse.count({
-				where: { userId },
+				where: {
+					userId,
+					completedSections: {
+						gt: 0,
+					},
+				},
 			}),
 		])
 
