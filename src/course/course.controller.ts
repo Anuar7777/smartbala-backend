@@ -11,6 +11,7 @@ import {
 	ApiBearerAuth,
 	ApiOperation,
 	ApiParam,
+	ApiQuery,
 	ApiResponse,
 	ApiTags,
 } from '@nestjs/swagger'
@@ -30,6 +31,20 @@ export class CourseController {
 	@HttpCode(200)
 	@Get()
 	@ApiOperation({ summary: 'Get all available courses for the current user' })
+	@ApiQuery({
+		name: 'page',
+		required: false,
+		type: Number,
+		example: 1,
+		description: 'Page number for pagination',
+	})
+	@ApiQuery({
+		name: 'limit',
+		required: false,
+		type: Number,
+		example: 15,
+		description: 'Number of items per page',
+	})
 	@ApiResponse({
 		status: 200,
 		description: 'List of courses returned successfully',
