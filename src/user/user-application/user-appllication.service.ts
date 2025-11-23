@@ -14,9 +14,17 @@ export class UserApplicationService {
 	async getByUserId(userId: string) {
 		const applications = await this.prisma.userApplication.findMany({
 			where: { userId },
+			include: {
+				application: true,
+			},
 		})
 
-		return applications
+		return applications.map(ua => ({
+			userId: ua.userId,
+			packageName: ua.packageName,
+			isBlocked: ua.isBlocked,
+			appName: ua.application.appName,
+		}))
 	}
 
 	async updateByUserId(userId: string, data: Application[]) {
