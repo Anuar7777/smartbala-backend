@@ -32,7 +32,7 @@ export class UserCourseService {
 				skip,
 				take: limit,
 				orderBy: {
-					completedSections: 'desc',
+					completedSections: 'asc',
 				},
 				select: {
 					userId: true,
