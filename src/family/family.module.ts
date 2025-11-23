@@ -20,6 +20,7 @@ import { AchievementModule } from '../achievement/achievement.module'
 import { StatisticsService } from '../statistics/statistics.service'
 import { FamilyStatisticsController } from './family-statistics/family-statistics.controller'
 import { FamilyStatisticsService } from './family-statistics/family-statistics.service'
+import { UserCourseService } from 'src/user/user-course/user-course.service'
 
 @Module({
 	imports: [ConfigModule, AchievementModule],
@@ -45,6 +46,7 @@ import { FamilyStatisticsService } from './family-statistics/family-statistics.s
 		FamilyAchievementService,
 		StatisticsService,
 		FamilyStatisticsService,
+		UserCourseService,
 	],
 	exports: [FamilyService],
 })

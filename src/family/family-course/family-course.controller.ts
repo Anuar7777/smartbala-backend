@@ -1,4 +1,14 @@
-import { Controller, Delete, Get, HttpCode, Param, Post } from '@nestjs/common'
+import {
+	Controller,
+	DefaultValuePipe,
+	Delete,
+	Get,
+	HttpCode,
+	Param,
+	ParseIntPipe,
+	Post,
+	Query,
+} from '@nestjs/common'
 import {
 	ApiBearerAuth,
 	ApiOperation,
@@ -36,10 +46,12 @@ export class FamilyCourseController {
 		description: 'The ID of the child whose courses are being requested',
 	})
 	async get(
-		@CurrentUser('id') parentId: string,
+		@CurrentUser('family_id') parentFamilyId: string,
 		@Param('childId') childId: string,
+		@Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
+		@Query('limit', new DefaultValuePipe(15), ParseIntPipe) limit: number = 15,
 	) {
-		return this.familyCourseService.get(parentId, childId)
+		return this.familyCourseService.get(parentFamilyId, childId, page, limit)
 	}
 
 	@HttpCode(200)

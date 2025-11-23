@@ -21,6 +21,11 @@ import { UserCourseController } from './user-course/user-course.controller'
 		PrismaService,
 		ApplicationService,
 	],
-	exports: [UserService, UserCourseService, UserApplicationService],
+	exports: [
+		UserService,
+		UserCourseService,
+		UserApplicationService,
+		UserCourseService,
+	],
 })
 export class UserModule {}

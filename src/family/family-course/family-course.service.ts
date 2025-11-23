@@ -6,35 +6,27 @@ import {
 import { Role } from '@prisma/client'
 import { PrismaService } from '../../prisma.service'
 import { FamilyService } from '../family.service'
+import { UserCourseService } from '../../user/user-course/user-course.service'
 
 @Injectable()
 export class FamilyCourseService {
 	constructor(
 		private readonly prisma: PrismaService,
 		private readonly familyService: FamilyService,
+		private readonly userCourseService: UserCourseService,
 	) {}
 
-	async get(parentId: string, childId: string) {
-		const childFamily = await this.familyService.getFamilyByUserId(childId)
-
-		const isMember = childFamily.members.some(
-			member => member.userId === parentId,
+	async get(parentFamilyId: string, childId: string, page = 1, limit = 15) {
+		const isChildInFamily = await this.familyService.isUserInFamily(
+			parentFamilyId,
+			childId,
 		)
 
-		if (!isMember) {
+		if (!isChildInFamily) {
 			throw new NotFoundException('Child not found')
 		}
 
-		const childCourses = await this.prisma.userCourse.findFirst({
-			where: {
-				userId: childId,
-			},
-			include: {
-				course: true,
-			},
-		})
-
-		return childCourses
+		return this.userCourseService.getAll(childId, page, limit)
 	}
 
 	async getAvailableChildrenForCourse(familyId: string, courseId: string) {
