@@ -4,7 +4,7 @@ import { AchievementController } from '../src/achievement/achievement.controller
 import { AchievementService } from '../src/achievement/achievement.service'
 import { AchievementCheckService } from '../src/achievement/achievement-check.service'
 import { TestService } from '../src/test/test.service'
-import { UserCourseService } from '../src/user/user-course.service'
+import { UserCourseService } from '../src/user/user-course/user-course.service'
 import { PrismaService } from '../src/prisma.service'
 import {
 	Achievement,

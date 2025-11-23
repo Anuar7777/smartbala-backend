@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { PrismaClient, Role, TestStatus } from '@prisma/client'
 import { TestController } from '../src/test/test.controller'
 import { TestService } from '../src/test/test.service'
-import { UserCourseService } from '../src/user/user-course.service'
+import { UserCourseService } from '../src/user/user-course/user-course.service'
 import { PrismaService } from '../src/prisma.service'
 import { clearDatabase } from './setup'
 

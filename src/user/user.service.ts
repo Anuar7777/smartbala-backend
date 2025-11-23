@@ -81,7 +81,6 @@ export class UserService {
 				role: true,
 				points: true,
 				imageUrl: true,
-				UserCourse: true,
 				Settings: true,
 			},
 		})

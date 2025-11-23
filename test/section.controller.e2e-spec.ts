@@ -3,7 +3,7 @@ import { PrismaClient, Role } from '@prisma/client'
 import { SectionController } from '../src/section/section.controller'
 import { SectionService } from '../src/section/section.service'
 import { TestService } from '../src/test/test.service'
-import { UserCourseService } from '../src/user/user-course.service'
+import { UserCourseService } from '../src/user/user-course/user-course.service'
 import { PrismaService } from '../src/prisma.service'
 import { clearDatabase } from './setup'
 

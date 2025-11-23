@@ -1,4 +1,12 @@
-import { Controller, Get, HttpCode, Param } from '@nestjs/common'
+import {
+	Controller,
+	DefaultValuePipe,
+	Get,
+	HttpCode,
+	Param,
+	ParseIntPipe,
+	Query,
+} from '@nestjs/common'
 import {
 	ApiBearerAuth,
 	ApiOperation,
@@ -30,8 +38,12 @@ export class CourseController {
 		status: 401,
 		description: 'Unauthorized - JWT token missing or invalid',
 	})
-	async getAll(@CurrentUser() user: UserTokenDto) {
-		return this.courseService.getAll(user.id, user.role as Role)
+	async getAll(
+		@CurrentUser() user: UserTokenDto,
+		@Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
+		@Query('limit', new DefaultValuePipe(15), ParseIntPipe) limit: number = 15,
+	) {
+		return this.courseService.getAll(user.id, user.role as Role, page, limit)
 	}
 
 	@HttpCode(200)

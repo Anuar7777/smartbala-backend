@@ -34,8 +34,8 @@ async function bootstrap() {
 		)
 
 		const swaggerConfig = new DocumentBuilder()
-			.setTitle('EduPoint API')
-			.setDescription('API documentation for EduPoint')
+			.setTitle('SmartBala API')
+			.setDescription('API documentation for SmartBala')
 			.setVersion('1.0')
 			.addBearerAuth()
 			.build()

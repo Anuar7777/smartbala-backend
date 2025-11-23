@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { PrismaService } from '../prisma.service'
+import { PrismaService } from '../../prisma.service'
 import { UserCourse } from '@prisma/client'
 
 @Injectable()
@@ -18,16 +18,34 @@ export class UserCourseService {
 		return userCourse
 	}
 
-	async getAll(userId: string) {
-		const userCourses = await this.prisma.userCourse.findMany({
-			where: { userId },
-		})
+	async getAll(userId: string, page = 1, limit = 15) {
+		const skip = (page - 1) * limit
 
-		if (!userCourses) {
-			throw new NotFoundException('Courses not found for this user')
+		const [items, total] = await this.prisma.$transaction([
+			this.prisma.userCourse.findMany({
+				where: { userId },
+				skip,
+				take: limit,
+				select: {
+					userId: true,
+					courseId: true,
+					completedSections: true,
+					lastAccessed: true,
+					course: true,
+				},
+			}),
+			this.prisma.userCourse.count({
+				where: { userId },
+			}),
+		])
+
+		return {
+			items,
+			total,
+			page,
+			limit,
+			totalPages: Math.ceil(total / limit),
 		}
-
-		return userCourses
 	}
 
 	async update(userId: string, courseId: string, dto: Partial<UserCourse>) {

@@ -11,7 +11,7 @@ import {
 	TestAnswer,
 	TestQuestion,
 } from '../section/section.types'
-import { UserCourseService } from '../user/user-course.service'
+import { UserCourseService } from '../user/user-course/user-course.service'
 import { UserService } from '../user/user.service'
 
 @Injectable()

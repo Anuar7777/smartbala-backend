@@ -5,24 +5,63 @@ import { PrismaClient, Role } from '@prisma/client'
 export class CourseService {
 	private prisma = new PrismaClient()
 
-	async getAll(userId: string, role: Role) {
+	async getAll(userId: string, role: Role, page = 1, limit = 10) {
+		const skip = (page - 1) * limit
+
 		if (role === Role.PARENT) {
-			return this.prisma.course.findMany({ include: { sections: true } })
-		} else if (role === Role.CHILD) {
-			const userCourses = await this.prisma.userCourse.findMany({
-				where: {
-					userId,
-				},
-				include: {
-					course: {
-						include: {
-							sections: true,
+			const [items, total] = await this.prisma.$transaction([
+				this.prisma.course.findMany({
+					skip,
+					take: limit,
+					include: {
+						sections: true,
+					},
+				}),
+				this.prisma.course.count(),
+			])
+
+			return {
+				items,
+				total,
+				page,
+				limit,
+				totalPages: Math.ceil(total / limit),
+			}
+		}
+
+		if (role === Role.CHILD) {
+			const [userCourses, total] = await this.prisma.$transaction([
+				this.prisma.userCourse.findMany({
+					where: { userId },
+					skip,
+					take: limit,
+					include: {
+						course: {
+							include: { sections: true },
 						},
 					},
-				},
-			})
-			return userCourses.map(uc => uc.course)
-		} else return []
+				}),
+				this.prisma.userCourse.count({
+					where: { userId },
+				}),
+			])
+
+			return {
+				items: userCourses.map(uc => uc.course),
+				total,
+				page,
+				limit,
+				totalPages: Math.ceil(total / limit),
+			}
+		}
+
+		return {
+			items: [],
+			total: 0,
+			page,
+			limit,
+			totalPages: 0,
+		}
 	}
 
 	async getById(courseId: string, userId: string, role: Role) {
