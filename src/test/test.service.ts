@@ -1,5 +1,7 @@
 import {
 	BadRequestException,
+	forwardRef,
+	Inject,
 	Injectable,
 	NotFoundException,
 } from '@nestjs/common'
@@ -21,6 +23,7 @@ export class TestService {
 		private readonly prisma: PrismaService,
 		private readonly userService: UserService,
 		private readonly userCourseService: UserCourseService,
+		@Inject(forwardRef(() => AchievementCheckService))
 		private readonly achievementCheckService: AchievementCheckService,
 	) {}
 

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { forwardRef, Inject, Injectable } from '@nestjs/common'
 import { PrismaService } from '../prisma.service'
 import { AchievementService } from './achievement.service'
 import { Achievement } from './achievement.data'
@@ -10,6 +10,7 @@ export class AchievementCheckService {
 	constructor(
 		private readonly prisma: PrismaService,
 		private readonly achievementService: AchievementService,
+		@Inject(forwardRef(() => TestService))
 		private readonly testService: TestService,
 	) {}
 
