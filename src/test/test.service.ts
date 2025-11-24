@@ -13,6 +13,7 @@ import {
 } from '../section/section.types'
 import { UserCourseService } from '../user/user-course/user-course.service'
 import { UserService } from '../user/user.service'
+import { AchievementCheckService } from '../achievement/achievement-check.service'
 
 @Injectable()
 export class TestService {
@@ -20,6 +21,7 @@ export class TestService {
 		private readonly prisma: PrismaService,
 		private readonly userService: UserService,
 		private readonly userCourseService: UserCourseService,
+		private readonly achievementCheckService: AchievementCheckService,
 	) {}
 
 	async get(testId: string) {
@@ -115,6 +117,11 @@ export class TestService {
 		if (status === TestStatus.PASSED) {
 			await this.userCourseService.updateProgress(userId, test.courseId)
 			await this.userService.updatePoints(userId, Math.round(score / 10))
+			await this.achievementCheckService.checkCourseAchievements(
+				userId,
+				test.courseId,
+			)
+			await this.achievementCheckService.checkTestAchievements(userId, testId)
 		}
 
 		return this.prisma.test.update({
