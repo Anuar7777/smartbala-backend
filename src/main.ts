@@ -33,6 +33,13 @@ async function bootstrap() {
 			}),
 		)
 
+		app
+			.getHttpAdapter()
+			.get('/loaderio-6f61de618b9fdb82d1fb66878edf338a.txt', (req, res) => {
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+				res.send('loaderio-6f61de618b9fdb82d1fb66878edf338a')
+			})
+
 		const swaggerConfig = new DocumentBuilder()
 			.setTitle('SmartBala API')
 			.setDescription('API documentation for SmartBala')
