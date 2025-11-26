@@ -5,6 +5,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import cookieParser from 'cookie-parser'
 import basicAuth from 'express-basic-auth'
 import { AppModule } from './app.module'
+import { Response } from 'express'
 
 const logger = new Logger('Bootstrap')
 
@@ -35,10 +36,12 @@ async function bootstrap() {
 
 		app
 			.getHttpAdapter()
-			.get('/loaderio-6f61de618b9fdb82d1fb66878edf338a.txt', (req, res) => {
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-				res.send('loaderio-6f61de618b9fdb82d1fb66878edf338a')
-			})
+			.get(
+				'/loaderio-6f61de618b9fdb82d1fb66878edf338a.txt',
+				(_, res: Response) => {
+					res.send('loaderio-6f61de618b9fdb82d1fb66878edf338a')
+				},
+			)
 
 		const swaggerConfig = new DocumentBuilder()
 			.setTitle('SmartBala API')

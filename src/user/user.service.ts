@@ -3,6 +3,7 @@ import { Role, User } from '@prisma/client'
 import { hash } from 'argon2'
 import { RegisterDto } from '../auth/dto/auth.dto'
 import { PrismaService } from '../prisma.service'
+import { UpdateUserDto } from './dto/user.dto'
 
 @Injectable()
 export class UserService {
@@ -90,6 +91,34 @@ export class UserService {
 		}
 
 		return user
+	}
+
+	async updateProfile(userId: string, dto: UpdateUserDto, imagePath?: string) {
+		const user = await this.prisma.user.findUnique({ where: { userId } })
+		if (!user) throw new NotFoundException('User not found')
+
+		const data = { ...dto }
+
+		if (dto.password) {
+			data.password = await hash(dto.password)
+		}
+
+		if (imagePath) {
+			data.imageUrl = imagePath
+		}
+
+		return this.prisma.user.update({
+			where: { userId },
+			data,
+			select: {
+				userId: true,
+				username: true,
+				email: true,
+				imageUrl: true,
+				points: true,
+				role: true,
+			},
+		})
 	}
 
 	async create(dto: RegisterDto) {
