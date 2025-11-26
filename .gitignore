@@ -59,3 +59,7 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 # PostgreSQL volume
 pgdata/
+
+# Profile icons
+/public/images/users/*
+!/public/images/users/.gitkeep
