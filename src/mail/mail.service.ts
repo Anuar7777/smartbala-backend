@@ -22,7 +22,7 @@ export class MailService {
 			: `<p>Your code is: <b>${code}</b></p>`
 
 		await this.transporter.sendMail({
-			from: `EduPoint Family`,
+			from: `SmartBala Family`,
 			to: email,
 			subject,
 			html: htmlContent,
@@ -30,7 +30,7 @@ export class MailService {
 	}
 
 	async sendInvite(email: string, code: string) {
-		const subject = 'Join your family on EduPoint!'
+		const subject = 'Join your family on SmartBala!'
 
 		await this.send(email, code, subject)
 	}

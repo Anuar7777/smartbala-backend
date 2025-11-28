@@ -161,7 +161,7 @@ export class TestService {
 		}) as unknown as Prisma.InputJsonValue
 
 		const score = Math.round((correctCount / total) * 100)
-		const status = score >= 85 ? TestStatus.PASSED : TestStatus.FAILED
+		const status = score >= 70 ? TestStatus.PASSED : TestStatus.FAILED
 
 		return { results, score, status }
 	}
