@@ -117,17 +117,7 @@ export class TestService {
 
 		const { results, score, status } = this.calculateResults(questions, answers)
 
-		if (status === TestStatus.PASSED) {
-			await this.userCourseService.updateProgress(userId, test.courseId)
-			await this.userService.updatePoints(userId, Math.round(score / 10))
-			await this.achievementCheckService.checkCourseAchievements(
-				userId,
-				test.courseId,
-			)
-			await this.achievementCheckService.checkTestAchievements(userId, testId)
-		}
-
-		return this.prisma.test.update({
+		const response = await this.prisma.test.update({
 			where: { testId, userId },
 			data: {
 				status,
@@ -140,6 +130,18 @@ export class TestService {
 				results: true,
 			},
 		})
+
+		if (status === TestStatus.PASSED) {
+			await this.userCourseService.updateProgress(userId, test.courseId)
+			await this.userService.updatePoints(userId, Math.round(score / 10))
+			await this.achievementCheckService.checkCourseAchievements(
+				userId,
+				test.courseId,
+			)
+			await this.achievementCheckService.checkTestAchievements(userId, testId)
+		}
+
+		return response
 	}
 
 	private calculateResults(questions: TestQuestion[], answers: TestAnswer[]) {
