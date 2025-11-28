@@ -109,7 +109,9 @@ export class UserController {
 		@Body() dto: UpdateUserDto,
 		@UploadedFile() image?: Express.Multer.File,
 	) {
-		const imagePath = image ? `/images/users/${image.filename}` : undefined
+		const imagePath = image
+			? `public/images/users/${image.filename}`
+			: undefined
 		return this.userService.updateProfile(userId, dto, imagePath)
 	}
 }
